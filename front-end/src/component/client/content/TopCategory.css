@@ -1,0 +1,15 @@
+h3,
+p,
+span {
+  color: #393280;
+  padding-top: 50px;
+}
+p {
+  font-weight: 700;
+}
+.image-size {
+  width: 350px;
+}
+#content {
+  height: 457px;
+}

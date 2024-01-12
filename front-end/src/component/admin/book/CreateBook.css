@@ -1,0 +1,26 @@
+#form-create {
+  width: 800px;
+  height: 500px;
+  overflow-y: auto;
+  margin-left: 15px;
+}
+#upload {
+  width: 660px;
+  height: 25vh;
+  margin-left: 25px;
+}
+
+.image-item {
+  position: relative;
+}
+
+.delete-icon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  visibility: hidden;
+}
+
+.image-item:hover .delete-icon {
+  visibility: visible;
+}

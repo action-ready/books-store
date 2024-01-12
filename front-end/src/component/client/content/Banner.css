@@ -1,0 +1,25 @@
+#banners {
+  background: linear-gradient(
+    79deg,
+    #ffe5e5 8.52%,
+    #f5fffe 68.88%,
+    #fff 101.74%
+  );
+  height: 457px;
+}
+
+#content-left {
+  margin: 80px;
+  color: #393280;
+  width: 471.069px;
+}
+#image-banner {
+  height: 350px;
+  margin: 50px;
+  width: 400px;
+  border-radius: 10px;
+}
+
+.content {
+  margin-left: 50px;
+}

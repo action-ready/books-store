@@ -1,0 +1,55 @@
+#banner {
+  background: #fcecec;
+  height: 657px;
+  margin-top: 50px;
+}
+h3 {
+  color: #393280;
+  text-align: center;
+  font-family: Inter;
+  font-size: 48px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  text-transform: capitalize;
+}
+h4 {
+  color: #393280;
+}
+#content {
+  height: 450px;
+}
+.author {
+  color: #888;
+  text-align: center;
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.28px;
+  text-transform: capitalize;
+}
+
+.price {
+  color: #ed553b;
+  text-align: center;
+  font-family: Inter;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: 0.36px;
+  text-transform: capitalize;
+}
+.image-item {
+  height: 260.888px;
+  flex-shrink: 0;
+  background: url(<path-to-image>),
+    lightgray -283.736px -162.925px / 353.184% 194.654% no-repeat;
+
+  box-shadow: 2px 4px 30px 0px rgba(115, 114, 109, 0.25);
+}
+.content-img {
+  background: #fff;
+}

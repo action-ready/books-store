@@ -1,0 +1,21 @@
+#main {
+  background-color: #f7f9fd;
+}
+
+#contents {
+  width: 1500px;
+  height: 80vh;
+  margin-top: 10px;
+  margin-bottom: 50px;
+  background-color: #ffffff;
+}
+#outlined-basic {
+  width: 280px;
+}
+#add {
+  margin-top: 5px;
+  margin-left: 45px;
+}
+#book-list {
+  width: 940px;
+}
