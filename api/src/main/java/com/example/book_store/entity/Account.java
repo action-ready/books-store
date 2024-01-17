@@ -11,7 +11,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "Account")
-public class Account extends SuperEntity{
+public class Account extends SuperEntity {
 
     private String fullName;
     private String username;
@@ -28,11 +28,13 @@ public class Account extends SuperEntity{
 
     @OneToMany(mappedBy = "account")
     List<Customer> customers;
-    enum Role {
+
+    public enum Role {
         ADMIN,
         USER,
     }
-    enum AccountStatus {
+
+    public enum AccountStatus {
         ACTIVE,
         INACTIVE,
         PENDING,

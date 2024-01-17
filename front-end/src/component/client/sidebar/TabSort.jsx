@@ -1,27 +1,30 @@
 import { Tabs } from "antd";
-import { useSelector } from "react-redux";
-const onChange = (key) => {
-  console.log(key);
-};
+import { useDispatch, useSelector } from "react-redux";
+import bookFilter from "../../../slices/bookFilterSlice";
+
 const items = [
   {
-    key: "1",
+    key: "id",
     label: "Phổ Biến",
   },
   {
-    key: "2",
+    key: "name",
     label: "Hàng Mới",
   },
   {
-    key: "3",
+    key: "price",
     label: "Giá Thấp Đến Cao",
   },
   {
-    key: "4",
+    key: "company",
     label: "Giá Cao Đến Thấp",
   },
 ];
 function TabSort() {
+  const distPatch = useDispatch();
+  const onChange = (key) => {
+    distPatch(bookFilter.actions.setSort(key));
+  };
   const categoryName = useSelector((state) => state.bookFilter.categoryName);
   return (
     <div className=" bg-light ms-1" style={{ height: "100px" }}>

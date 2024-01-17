@@ -3,11 +3,11 @@ import { FaAngleDown } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 
 function Book({ book }) {
-  const { name, sellingPrice } = book;
+  const { name, sellingPrice, id } = book;
   return (
     <div className="col p-2 ms-4">
       <div className="card " style={{ width: "18rem", height: "500px" }}>
-        <Link to={"/s"}>
+        <Link to={`/books/${id}`}>
           <img
             src="https://salt.tikicdn.com/cache/280x280/ts/product/75/91/36/4d917ab5d82b0cfcfe77f336dd005ad8.jpg.webp"
             className="card-img-top"

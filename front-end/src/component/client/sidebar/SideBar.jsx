@@ -14,6 +14,31 @@ function SideBar() {
   const [companies, setCompanies] = useState([]);
   const [publishers, setPublishers] = useState([]);
   const [coverTypeses, setCoverTypeses] = useState([]);
+  const [minPrice, setMinPrice] = useState("");
+  const [maxPrice, setMaxPrice] = useState("");
+
+  const price = [
+    {
+      min: 0,
+      max: 600000,
+      value: "Dưới 60.000",
+    },
+    {
+      min: 600000,
+      max: 1400000,
+      value: "60.000 - 140.000",
+    },
+    {
+      min: 1400000,
+      max: 2800000,
+      value: " 140.000- 280.000",
+    },
+    {
+      min: 280000,
+      max: 9999999999,
+      value: "Trên 280.000",
+    },
+  ];
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -61,6 +86,19 @@ function SideBar() {
     dispatch(bookFilter.actions.setCategoryId(categoryId));
   };
 
+  const onSearchCompany = (e, company) => {
+    console.log(`<<<<<  company >>>>>`, company);
+    const isChecked = e.target.checked;
+
+    const companyId = company._links.company.href.split("/").slice(-1)[0];
+
+    if (!isChecked) {
+      dispatch(bookFilter.actions.setRemoveCompanyId(companyId));
+    } else {
+      dispatch(bookFilter.actions.setCompanyId(companyId));
+    }
+  };
+
   const onSearchAuthor = (e, author) => {
     const isChecked = e.target.checked;
 
@@ -73,6 +111,45 @@ function SideBar() {
     }
   };
 
+  const onSearchCoverTypes = (e, author) => {
+    const isChecked = e.target.checked;
+
+    const authorId = author._links.coverTypes.href.split("/").slice(-1)[0];
+
+    if (!isChecked) {
+      dispatch(bookFilter.actions.setRemoveCoverTypes(authorId));
+    } else {
+      dispatch(bookFilter.actions.setCoverTypes(authorId));
+    }
+  };
+
+  const onSearchPublishers = (e, author) => {
+    const isChecked = e.target.checked;
+
+    const authorId = author._links.publishers.href.split("/").slice(-1)[0];
+
+    if (!isChecked) {
+      dispatch(bookFilter.actions.setRemovePublishers(authorId));
+    } else {
+      dispatch(bookFilter.actions.setPublishers(authorId));
+    }
+  };
+
+  const onSearchPrice = (p) => {
+    const { min, max } = p;
+    dispatch(bookFilter.actions.setMinPrice(min));
+    dispatch(bookFilter.actions.setMaxPrice(max));
+  };
+  const onMinPrice = (value) => {
+    setMinPrice(value);
+  };
+  const onMaxPrice = (value) => {
+    setMaxPrice(value);
+  };
+  const onSearchPriceTwo = () => {
+    dispatch(bookFilter.actions.setMinPrice(minPrice));
+    dispatch(bookFilter.actions.setMaxPrice(maxPrice));
+  };
   return (
     <div className="col-md-2 bg-light ">
       <div className="row border-bottom">
@@ -95,38 +172,39 @@ function SideBar() {
 
       <div className="row border-bottom">
         <h6 className="ms-3 py-2">Giá</h6>
-        <span
-          style={{ width: "173px" }}
-          className="py-1 ms-4 my-2 text-white  text-center bg-secondary rounded "
-        >
-          Dưới 30.000
-        </span>
-        <span
-          style={{ width: "173px" }}
-          className="py-1 my-2 ms-4 text-white   text-center bg-secondary rounded "
-        >
-          Dưới 30.000
-        </span>
-        <span
-          style={{ width: "173px" }}
-          className="py-1 my-2 ms-4 text-white   text-center bg-secondary rounded "
-        >
-          Dưới 30.000
-        </span>
-        <span
-          style={{ width: "173px" }}
-          className="py-1 my-2 ms-4 text-white   text-center bg-secondary rounded "
-        >
-          Dưới 30.000
-        </span>
+        {price.map((p) => {
+          return (
+            <span
+              onClick={() => onSearchPrice(p)}
+              key={p}
+              style={{ width: "173px" }}
+              className="py-1 ms-4 my-2 text-white  text-center bg-secondary rounded "
+            >
+              {p.value}
+            </span>
+          );
+        })}
+
         <h6 className="ms-3 py-2">Chọn Khoảng Giá</h6>
         <div className="d-flex  justify-content-center">
-          <InputNumber min={1} max={10} defaultValue={3} className="me-2" /> -
-          <InputNumber min={1} max={10} defaultValue={3} className="ms-2" />
+          <InputNumber
+            onChange={onMinPrice}
+            min={1}
+            defaultValue={3}
+            className="me-2"
+          />{" "}
+          -
+          <InputNumber
+            onChange={onMaxPrice}
+            min={1}
+            defaultValue={3}
+            className="ms-2"
+          />
         </div>
         <button
           className="btn btn-outline-primary mt-3 ms-3 mb-3"
           style={{ width: "190px" }}
+          onClick={() => onSearchPriceTwo()}
         >
           Áp Dụng
         </button>
@@ -143,7 +221,8 @@ function SideBar() {
                   type="checkbox"
                   defaultValue=""
                   id="flexCheckDefault"
-                  value={company.id}
+                  value={company}
+                  onChange={(e) => onSearchCompany(e, company)}
                 />
                 <label className="form-check-label" htmlFor="flexCheckDefault">
                   {company.name}
@@ -189,7 +268,8 @@ function SideBar() {
                   type="checkbox"
                   defaultValue=""
                   id="flexCheckDefault"
-                  value={company.id}
+                  value={company}
+                  onChange={(e) => onSearchCoverTypes(e, company)}
                 />
                 <label className="form-check-label" htmlFor="flexCheckDefault">
                   {company.name}
@@ -211,7 +291,8 @@ function SideBar() {
                   type="checkbox"
                   defaultValue=""
                   id="flexCheckDefault"
-                  value={company.id}
+                  value={company}
+                  onChange={(e) => onSearchPublishers(e, company)}
                 />
                 <label className="form-check-label" htmlFor="flexCheckDefault">
                   {company.name}

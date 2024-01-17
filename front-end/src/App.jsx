@@ -5,6 +5,7 @@ import DashBoard from "./component/admin/dashBoard/DashBoard";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Home from "./component/client/page/Home";
 import Books from "./component/client/page/Books";
+import BookDetails from "./component/client/books/BookDetails";
 function App() {
   return (
     <>
@@ -16,6 +17,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/books" element={<Books />} />
+        <Route path="/books/:id" element={<BookDetails />} />
       </Routes>
     </>
   );

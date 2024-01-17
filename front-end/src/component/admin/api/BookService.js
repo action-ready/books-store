@@ -12,4 +12,8 @@ const getAllBookFilter = (request) => {
   return data;
 };
 
-export { getAllBook, getAllBookFilter };
+const getBookById = (id) => {
+  let data = axios.get("/books/" + id);
+  return data;
+};
+export { getAllBook, getAllBookFilter, getBookById };
