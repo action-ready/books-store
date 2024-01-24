@@ -2,10 +2,13 @@ package com.example.book_store.controller;
 
 
 import com.example.book_store.payload.request.ShoppingCartRequest;
+import com.example.book_store.payload.response.CartItemsDTOResponse;
 import com.example.book_store.service.ShoppingCartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -13,6 +16,13 @@ import org.springframework.web.bind.annotation.*;
 public class ShoppingCartController {
 
     private final ShoppingCartService shoppingCartService;
+
+
+    @GetMapping("/account/{accountId}/shopping-carts")
+    public ResponseEntity<List<CartItemsDTOResponse>> getCarts(@PathVariable Long accountId) {
+
+        return ResponseEntity.ok(shoppingCartService.getCartByAccountId(accountId));
+    }
 
     @PostMapping("/account/{accountId}/shopping-carts")
     public ResponseEntity<String> createShoppingCart(@RequestBody ShoppingCartRequest request, @PathVariable Long accountId) {
@@ -38,7 +48,7 @@ public class ShoppingCartController {
 
     @DeleteMapping("/shopping-carts/{cartId}")
     public ResponseEntity<String> decreaseCartItemQuantity(@PathVariable Long cartId
-                                                           ) {
+    ) {
         shoppingCartService.deleteCart(cartId);
 
         return ResponseEntity.ok("Quantity decreased successfully");

@@ -6,6 +6,7 @@ import com.example.book_store.entity.Book;
 import com.example.book_store.entity.CartItem;
 import com.example.book_store.entity.ShoppingCart;
 import com.example.book_store.payload.request.ShoppingCartRequest;
+import com.example.book_store.payload.response.CartItemsDTOResponse;
 import com.example.book_store.repository.AccountRepository;
 import com.example.book_store.repository.BookRepository;
 import com.example.book_store.repository.CartItemRepository;
@@ -20,6 +21,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -163,6 +165,20 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         cartItemRepository.deleteAll(shoppingCart.getCartItems());
     }
 
+    @Override
+    public List<CartItemsDTOResponse> getCartByAccountId(Long id) {
+        Account account = accountRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Account not found"));
+
+        List<CartItem> cartItem = account.getShoppingCart().get(0).getCartItems();
+
+        List<CartItemsDTOResponse> responses = cartItem.stream().map((cart) -> modelMapper.map(cart, CartItemsDTOResponse.class))
+                .collect(Collectors.toList());
+        responses.get(0).setTotalPriceCart(account.getShoppingCart().get(0).getTotalPrice());
+
+        return responses;
+    }
+
 
     public void increaseCartItemQuantity(CartItem cartItem, int quantityToAdd) {
         if (cartItem != null && quantityToAdd > 0) {
@@ -215,5 +231,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         }
         return totalPrice;
     }
+
 
 }

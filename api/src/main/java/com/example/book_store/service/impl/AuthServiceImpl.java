@@ -2,9 +2,11 @@ package com.example.book_store.service.impl;
 
 
 import com.example.book_store.entity.Account;
+import com.example.book_store.entity.Token;
 import com.example.book_store.payload.request.AccountDTORequest;
 import com.example.book_store.payload.request.LoginDTORequest;
 import com.example.book_store.payload.response.LoginDTOResponse;
+import com.example.book_store.payload.response.TokenDTOResponse;
 import com.example.book_store.repository.AccountRepository;
 import com.example.book_store.service.AuthService;
 import com.example.book_store.service.JWTService;
@@ -43,13 +45,11 @@ public class AuthServiceImpl implements AuthService {
 
         Account account = accountRepository.findByUsername(request.getUsername());
 
-//        boolean checkPassword = passwordEncoder.matches(account.getPassword(), request.getPassword());
-//
-//        if (account == null || !checkPassword) {
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username or password incorrect");
-//        }
+
 
         String token = jwtService.generateToken(account.getUsername());
+
+        Token refreshToken = jwtService.generateRefreshToken(account);
 
         LoginDTOResponse loginDTOResponse = new LoginDTOResponse();
         loginDTOResponse.setId(account.getId());
@@ -57,7 +57,13 @@ public class AuthServiceImpl implements AuthService {
         loginDTOResponse.setPhoneNumber(account.getPhoneNumber());
         loginDTOResponse.setUsername(account.getUsername());
         loginDTOResponse.setToken(token);
+        loginDTOResponse.setRefreshToken(refreshToken.getKey().toString());
         return loginDTOResponse;
+    }
+
+    @Override
+    public TokenDTOResponse getNewToken(String refreshToken) {
+        return jwtService.getNewToken(refreshToken);
     }
 
 }
