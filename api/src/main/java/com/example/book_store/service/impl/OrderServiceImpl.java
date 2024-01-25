@@ -2,17 +2,27 @@ package com.example.book_store.service.impl;
 
 
 import com.example.book_store.entity.*;
+import com.example.book_store.payload.request.OrderFilterRequest;
 import com.example.book_store.payload.request.OrderRequest;
+import com.example.book_store.payload.response.OrderResponse;
+import com.example.book_store.payload.specification.OrderSpecification;
 import com.example.book_store.repository.*;
 import com.example.book_store.service.OrderService;
 import lombok.RequiredArgsConstructor;
+import org.aspectj.weaver.ast.Or;
+import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.security.interfaces.EdECKey;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +34,7 @@ public class OrderServiceImpl implements OrderService {
     private final BookRepository bookRepository;
     private final OrderDetailsRepository orderDetailsRepository;
     private final CartItemRepository cartItemRepository;
+    private final ModelMapper modelMapper;
 
     @Override
     @Transactional
@@ -99,6 +110,17 @@ public class OrderServiceImpl implements OrderService {
         }
 
         orderRepository.save(order);
+    }
+
+    @Override
+    public Page<OrderResponse> getAll(Pageable pageable, OrderFilterRequest request) {
+
+        Specification<Order> orderSpecification = OrderSpecification.buildWhere(request);
+        Page<Order> orders = orderRepository.findAll(orderSpecification, pageable);
+
+        Page<OrderResponse> responses = orders.map((order -> modelMapper.map(order, OrderResponse.class)));
+
+        return responses;
     }
 
 }
